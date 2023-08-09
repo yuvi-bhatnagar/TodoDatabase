@@ -1,0 +1,81 @@
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        margin: 0;
+    }
+
+    .main {
+        display: flex;
+        justify-content: center;
+        margin: 20px;
+    }
+
+    input[type="text"] {
+        border: none;
+        border-bottom: 2px solid #237e26;
+        font-size: 16px;
+        margin-right: 10px;
+        padding: 5px;
+        width: 70%;
+    }
+
+    input[type="submit"] {
+        background-color: #237e26;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 5px 10px;
+    }
+
+    #todo-list {
+        text-align: center;
+        list-style-position: inside;
+        list-style: none;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    #todo-list li {
+        border-bottom: 1px solid #ccc;
+        padding: 10px;
+    }
+
+    #todo-list li label {
+        width: 10rem;
+    }
+
+    #todo-list li input[type="checkbox"] {
+        margin-left: 10rem;
+        margin-right: 10px;
+    }
+
+    #todo-list li:last-child {
+        border-bottom: none;
+    }
+
+    .completed {
+        text-decoration: line-through;
+    }
+
+    .delete {
+        color: #f00;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+</style>
+
+<div class="main">
+    <form id="form">
+        <input type="text" id="new-todo" placeholder="Add new todo..." />
+        <input type="file" name="todo-image" id="todo-image" />
+        <button type="submit" id="add-todo">Add</button>
+    </form>
+</div>
+<ul id="todo-list"></ul>
+<script src="/todo.js"></script>

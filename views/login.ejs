@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sign Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            width: 400px;
+            margin: 0 auto;
+            margin-top: 50px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+        }
+        a{
+            display:block;
+            background-color: #4caf50;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 0;
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="signup">Sign up</a>
+    <form action="/login" method="POST">
+        <h1>Log In</h1>
+        <label for="name">Username</label>
+        <input required type="text" name="username" id="name" placeholder="Username" />
+        <label for="password">Password</label>
+        <input required type="password" name="password" id="password" placeholder="Password" />
+        <button type="submit">Login</button>
+        <% if(error){ %>
+            <p style="color: red;"><%= error %></p>
+        <% } %>
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<style>
+    body {
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background-color: #237e26;
+        color: #fff;
+        padding: 20px;
+        display: flex;
+    }
+    header .head {
+        color: #fff;
+        font-size: 2.5rem;
+        flex: content;
+        flex-basis: 20rem;
+        margin-left: 45%;
+    }
+    header .user{
+        color: #fff;
+        flex: content;
+        margin-left: 25vw;
+        margin-right: 20px;
+        font-size: 1.5rem;
+    }
+    nav {
+        background-color: #51af54;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+    }
+    nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+    nav li {
+        display: inline-block;
+        margin-right: 20px;
+    }
+    nav a{
+        text-decoration: none;
+        color: #ffffff;
+    }
+</style>
+
+<header>
+    <div class="head"><%= head %></div>
+    <div class="user">Hello <%= username %></div>
+</header>
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/todo">TODO</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+</nav>
