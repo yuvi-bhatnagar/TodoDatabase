@@ -203,38 +203,21 @@ app.post("/todo", upload.single("image"), function (request, response) {
     }
   });
 });
-app.delete("/todo", function (request, response) {
+app.delete("/todo", async function (request, response) {
   const todo = request.body;
-
-  getTodos(null, true, function (error, todos) {
-    if (error) {
-      response.status(500);
-      response.json({ error: error });
-    } else {
-      const filteredTodos = todos.filter(function (todoItem) {
-        if (todoItem.text === todo.text) {
-          const path = __dirname + "/uploads/" + todoItem.imageName;
-          fs.unlink(path, function (error) {
-            console.log(error);
-          });
-        }
-        return todoItem.text !== todo.text;
-      });
-
-      fs.writeFile(
-        "./todos.mp4",
-        JSON.stringify(filteredTodos),
-        function (error) {
-          if (error) {
-            response.status(500);
-            response.json({ error: error });
-          } else {
-            response.status(200);
-            response.send();
-          }
-        }
-      );
-    }
+  const todoItem=await Todo.findOne({text: todo.text});
+  const path = __dirname + "/uploads/" + todoItem.imageName;
+  fs.unlink(path, function (error) {
+    console.log(error);
+  });
+  Todo.deleteOne(todoItem)
+  .then(function () {
+    response.status(200);
+    response.send();
+  })
+  .catch(function (error){
+    response.status(500);
+    response.json({ error: error });
   });
 });
 
@@ -246,99 +229,58 @@ app.listen(8000, function () {
 });
 
 function getTodos(username, all, callback) {
-  fs.readFile("./todos.mp4", "utf-8", function (error, data) {
-    if (error) {
-      callback(error);
-    } else {
-      if (data.length === 0) {
-        data = "[]";
-      }
-
-      try {
-        let todos = JSON.parse(data);
-
-        if (all) {
-          callback(null, todos);
-          return;
-        }
-
-        const filteredTodos = todos.filter(function (todo) {
-          return todo.createdBy === username;
-        });
-
+  if (all) {
+    Todo.find({})
+      .then(todos=>{
         callback(null, filteredTodos);
-      } catch (error) {
-        callback(null, []);
-      }
-    }
-  });
+      })
+      .catch(error=>{
+          callback(error);
+      });
+  } 
+  else {
+    Todo.find({ createdBy: username })
+    .then(filteredTodos=>{
+      callback(null, filteredTodos);
+    })
+    .catch(error=>{
+        callback(error);
+    });
+  }
 }
 
 function saveTodos(todo, callback) {
-  getTodos(null, true, function (error, todos) {
-    if (error) {
-      callback(error);
-    } else {
-      todos.push(todo);
-
-      fs.writeFile("./todos.mp4", JSON.stringify(todos), function (error) {
-        if (error) {
-          callback(error);
-        } else {
-          callback();
-        }
-      });
-    }
-  });
+  const todosJSON = JSON.stringify(todo);
+  Todo.create(todo)
+  .then(savedTodos => callback())
+  .catch(err => callback(err));
 }
-app.post("/img", function (request, response) {
+app.post("/img", async function (request, response) {
   const todo = request.body;
-  getTodos(null, true, function (error, todos) {
-    if (error) {
+  try {
+    const todoData=await Todo.findOne({text:todo.text ,createdBy:todo.createdBy});
+    const image=todoData.imageName;
+    response.status(200);
+    response.json(image);
+  } catch (error) {
+    if(error){
       response.status(500);
       response.json({ error: error });
-    } else {
-      const image = todos.filter(function (todoItem) {
-        if (todoItem.text === todo.text && todoItem.user === todo.user) {
-          return todoItem.imageName;
-        }
-      });
-      response.status(200);
-      response.json(image[0].imageName);
     }
-  });
+  }
 });
-app.post("/change", function (request, response) {
-  const todo = request.body;
-  getTodos(null, true, function (error, todos) {
-    if (error) {
-      response.status(500);
-      response.json({ error: error });
-    } else {
-      const newtodolist = todos.filter(function (todoItem) {
-        if (
-          todoItem.text === todo.text &&
-          todoItem.createdBy === todo.createdBy
-        ) {
-          if (todoItem.iscompleted === false) {
-            todoItem.iscompleted = true;
-            return todoItem;
-          } else {
-            todoItem.iscompleted = false;
-            return todoItem;
-          }
-        }
-        return todoItem;
-      });
-      fs.writeFile("todos.mp4", JSON.stringify(newtodolist), function (error) {
-        if (error) {
-          response.status(500);
-          response.json({ error: error });
-        } else {
-          response.status(200);
-          response.send();
-        }
-      });
+app.post("/change", async function (request, response) {
+  try {
+    const todo = request.body;
+    const todoData = await Todo.findOne({text:todo.text,createdBy:todo.createdBy});
+    if(todoData.iscompleted){
+      await Todo.findOneAndUpdate(todoData,{iscompleted:false});
     }
-  });
+    else{
+      await Todo.findOneAndUpdate(todoData,{iscompleted:true});
+    }
+  } catch (error) {
+    response.status(500);
+    response.json({ error: error });
+  }
 });
