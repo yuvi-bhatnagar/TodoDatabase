@@ -51,8 +51,10 @@ function addTodoToDOM(todo,iscompleted,imgName) {
   const todoItem = document.createElement("li");
   const todolabel = document.createElement("label");
   todolabel.innerText = todo;
+  todolabel.id = "text";
   const crosslabel = document.createElement("label");
   crosslabel.innerText = "X";
+  crosslabel.id = "cross";
   const checkbox = document.createElement("input");
   const image=document.createElement("img");
   image.src = imgName;

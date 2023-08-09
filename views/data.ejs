@@ -14,6 +14,10 @@
         justify-content: center;
         margin: 20px;
     }
+    #form{
+        width: 100vw;
+        justify-content: center;
+    }
 
     input[type="text"] {
         border: none;
@@ -34,11 +38,11 @@
     }
 
     #todo-list {
-        text-align: center;
         list-style-position: inside;
         list-style: none;
         margin: 0 auto;
-        padding: 0;
+        padding-left: 35vw;
+        padding-right: 35vw;
     }
 
     #todo-list li {
@@ -46,13 +50,21 @@
         padding: 10px;
     }
 
-    #todo-list li label {
-        width: 10rem;
+    #text{
+        display: inline-block;
+        margin-bottom: 0.5rem;
+        width: 18.5rem;
+    }
+    #cross{
+        margin-bottom: 0.5rem;
+        margin-left: 10px;
     }
 
     #todo-list li input[type="checkbox"] {
-        margin-left: 10rem;
-        margin-right: 10px;
+        margin: 0 10 0 auto;
+    }
+    #todo-list li img{
+        margin-left: 30vw;
     }
 
     #todo-list li:last-child {
